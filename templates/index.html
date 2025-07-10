@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>Chemical Equation Balancer</title>
+</head>
+<body>
+    <h1>Chemical Equation Balancer</h1>
+    <form method="POST">
+        <label>Reactants (e.g., H2 + O2):</label><br>
+        <input type="text" name="reactants" required><br><br>
+
+        <label>Products (e.g., H2O):</label><br>
+        <input type="text" name="products" required><br><br>
+
+        <input type="submit" value="Balance Equation">
+    </form>
+    <br>
+    <h3>Result:</h3>
+    <p>{{ result }}</p>
+</body>
+</html>
