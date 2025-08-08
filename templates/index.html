@@ -5,90 +5,79 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #e3f2fd, #bbdefb);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-            max-width: 450px;
-            width: 100%;
+            background: linear-gradient(to right, #e0f7fa, #ffffff);
             text-align: center;
+            padding: 20px;
         }
         h1 {
-            color: #1565c0;
-            margin-bottom: 20px;
+            color: #00796b;
         }
-        label {
-            font-weight: bold;
-            display: block;
-            text-align: left;
-            margin: 10px 0 5px;
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #90caf9;
+            width: 90%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 14px;
-            margin-bottom: 15px;
         }
         input[type="submit"] {
-            background: #1565c0;
+            background: #00796b;
             color: white;
-            padding: 10px 15px;
+            padding: 10px 20px;
             border: none;
             border-radius: 6px;
-            font-size: 16px;
             cursor: pointer;
-            transition: background 0.3s;
+            font-size: 16px;
         }
         input[type="submit"]:hover {
-            background: #0d47a1;
+            background: #004d40;
         }
         .result-box {
-            background: #e3f2fd;
-            padding: 10px;
-            margin-top: 15px;
-            border-radius: 6px;
-            font-weight: bold;
-            color: #0d47a1;
+            margin-top: 20px;
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Chemical Equation Balancer</h1>
-        <form method="POST">
-            <label>Reactants (e.g., H2 + O2):</label>
-            <input type="text" name="reactants" required>
+    <h1>Chemical Equation Balancer</h1>
+    <form method="POST">
+        <label>Reactants (e.g., H2 + O2):</label><br>
+        <input type="text" name="reactants" required><br><br>
 
-            <label>Products (e.g., H2O):</label>
-            <input type="text" name="products" required>
+        <label>Products (e.g., H2O):</label><br>
+        <input type="text" name="products" required><br><br>
 
-            <input type="submit" value="Balance Equation">
-        </form>
+        <input type="submit" value="Balance Equation">
+    </form>
 
-        {% if result %}
-        <div class="result-box" id="equation-result">
-            {{ result }}
-        </div>
-        {% endif %}
+    {% if result %}
+    <div class="result-box" id="equation-result">
+        {{ result }}
     </div>
+    {% endif %}
 
     <script>
-        // Function to convert numbers to subscript
         function formatChemicalFormula(text) {
-            return text.replace(/(\d+)/g, '<sub>$1</sub>');
+            // Subscript numbers after elements: H2 → H₂
+            text = text.replace(/([A-Za-z])(\d+)/g, '$1<sub>$2</sub>');
+
+            // Subscript numbers after parentheses: (SO4)3 → (SO₄)₃
+            text = text.replace(/(\))(\d+)/g, '$1<sub>$2</sub>');
+
+            return text;
         }
 
-        // Apply formatting if result exists
         const resultElement = document.getElementById("equation-result");
         if (resultElement) {
             resultElement.innerHTML = formatChemicalFormula(resultElement.innerHTML);
