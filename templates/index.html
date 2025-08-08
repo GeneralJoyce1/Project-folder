@@ -1,20 +1,98 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Chemical Equation Balancer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #1565c0;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #90caf9;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        input[type="submit"] {
+            background: #1565c0;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        input[type="submit"]:hover {
+            background: #0d47a1;
+        }
+        .result-box {
+            background: #e3f2fd;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #0d47a1;
+        }
+    </style>
 </head>
 <body>
-    <h1>Chemical Equation Balancer</h1>
-    <form method="POST">
-        <label>Reactants (e.g., H2 + O2):</label><br>
-        <input type="text" name="reactants" required><br><br>
+    <div class="container">
+        <h1>Chemical Equation Balancer</h1>
+        <form method="POST">
+            <label>Reactants (e.g., H2 + O2):</label>
+            <input type="text" name="reactants" required>
 
-        <label>Products (e.g., H2O):</label><br>
-        <input type="text" name="products" required><br><br>
+            <label>Products (e.g., H2O):</label>
+            <input type="text" name="products" required>
 
-        <input type="submit" value="Balance Equation">
-    </form>
-    <br>
-    <h3>Result:</h3>
-    <p>{{ result }}</p>
+            <input type="submit" value="Balance Equation">
+        </form>
+
+        {% if result %}
+        <div class="result-box" id="equation-result">
+            {{ result }}
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Function to convert numbers to subscript
+        function formatChemicalFormula(text) {
+            return text.replace(/(\d+)/g, '<sub>$1</sub>');
+        }
+
+        // Apply formatting if result exists
+        const resultElement = document.getElementById("equation-result");
+        if (resultElement) {
+            resultElement.innerHTML = formatChemicalFormula(resultElement.innerHTML);
+        }
+    </script>
 </body>
 </html>
